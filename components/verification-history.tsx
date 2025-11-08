@@ -64,11 +64,8 @@ export default function VerificationHistory() {
             </TableHeader>
             <TableBody>
               {verificationHistory.map((item, index) => (
-                <motion.tr
+                <tr
                   key={index}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
                   className="border-b last:border-0"
                 >
                   <TableCell className="font-medium">{item.serviceName}</TableCell>
@@ -79,7 +76,7 @@ export default function VerificationHistory() {
                     </span>
                   </TableCell>
                   <TableCell className="font-mono text-sm">{item.verifiedBy}</TableCell>
-                </motion.tr>
+                </tr>
               ))}
             </TableBody>
           </Table>

@@ -78,6 +78,7 @@ export default function Nav() {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
+}
       </div>
     </motion.nav>
   )

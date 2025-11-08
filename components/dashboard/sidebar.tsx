@@ -53,12 +53,7 @@ export function DashboardSidebar() {
   ]
 
   return (
-    <motion.div
-      className="h-screen w-64 bg-gradient-to-b from-purple-50 to-blue-50 dark:from-purple-950/30 dark:to-blue-950/30 border-r fixed left-0 top-0 z-40 pt-16 overflow-y-auto"
-      initial={{ x: -100, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
-    >
+    <div className="h-screen w-64 bg-gradient-to-b from-purple-50 to-blue-50 dark:from-purple-950/30 dark:to-blue-950/30 border-r fixed left-0 top-0 z-40 pt-16 overflow-y-auto">
       <div className="p-4">
         <div className="mb-6 p-3 rounded-lg bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700">
           <p className="text-xs text-muted-foreground mb-1">Connected Wallet</p>
@@ -90,6 +85,6 @@ export function DashboardSidebar() {
 
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 }
