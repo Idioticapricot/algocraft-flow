@@ -22,10 +22,8 @@ export default function ContractsPage() {
       background: "#0b0b0b", 
       color: "#fff" 
     }}>
-      <div style={{ width: 280, borderRight: "1px solid #222" }}>
-        <BlockPicker onToolboxXml={setToolboxXml} />
-      </div>
-
+      <BlockPicker onToolboxXml={setToolboxXml} />
+      
       <div style={{ flex: 1, position: "relative" }}>
         <BlockWorkspace 
           toolboxXml={toolboxXml} 

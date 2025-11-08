@@ -130,39 +130,5 @@ export default function BlockPicker({
     })()
   }, [onToolboxXml])
 
-  return (
-    <div style={{ 
-      padding: 16, 
-      height: "100%", 
-      overflow: "auto", 
-      color: "#fff", 
-      background: "#0f0f0f",
-      borderRight: "1px solid #222"
-    }}>
-      <h3 style={{ 
-        color: "#fff", 
-        marginBottom: 16, 
-        fontSize: 16, 
-        fontWeight: 600 
-      }}>
-        Block Toolbox
-      </h3>
-      {loading ? (
-        <p style={{ color: "#888", fontSize: 14 }}>Loading blocks...</p>
-      ) : (
-        <div style={{ fontSize: 14, color: "#aaa" }}>
-          <p style={{ marginBottom: 8 }}>Categories:</p>
-          <ul style={{ listStyle: "none", padding: 0 }}>
-            <li style={{ padding: "4px 0" }}>• Core</li>
-            <li style={{ padding: "4px 0" }}>• Transactions</li>
-            <li style={{ padding: "4px 0" }}>• State</li>
-            <li style={{ padding: "4px 0" }}>• Values</li>
-          </ul>
-          <p style={{ marginTop: 16, fontSize: 12, color: "#666" }}>
-            Drag blocks from the toolbox to the workspace
-          </p>
-        </div>
-      )}
-    </div>
-  )
+  return null
 }
