@@ -20,6 +20,7 @@ export default function ContractsPage() {
       display: "flex", 
       height: "100vh", 
       background: "#0b0b0b", 
+      minWidth: 0,
       color: "#fff" 
     }}>
       <BlockPicker onToolboxXml={setToolboxXml} />
@@ -33,7 +34,7 @@ export default function ContractsPage() {
       </div>
 
       <div style={{ 
-        width: 420, 
+        width: 500, 
         borderLeft: "1px solid #222", 
         background: "#111" 
       }}>
