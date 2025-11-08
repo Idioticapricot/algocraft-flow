@@ -13,9 +13,8 @@ export default function Nav() {
 
   const navLinks = [
     { href: "/", label: "Home" },
-    { href: "/build", label: "Build" },
-    { href: "/contract", label: "Smart Contracts" },
-    { href: "/transaction", label: "Transactions" },
+    { href: "/build/transactions", label: "Build Transactions" },
+    { href: "/build/contracts", label: "Build Contracts" },
     { href: "/docs", label: "Docs" },
   ]
 

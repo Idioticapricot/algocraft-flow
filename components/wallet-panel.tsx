@@ -49,12 +49,12 @@ export function WalletPanel({ wallet, onClose }: WalletPanelProps) {
   // Algorand Network URLs
   const NETWORK_CONFIG = {
     testnet: {
-      indexer: "https://testnet-idx.algonode.cloud",
+      indexer: "https://testnet-api.algonode.cloud",
       algod: "https://testnet-api.algonode.cloud",
       explorer: "https://testnet.algoexplorer.io"
     },
     mainnet: {
-      indexer: "https://mainnet-idx.algonode.cloud", 
+      indexer: "https://mainnet-api.algonode.cloud", 
       algod: "https://mainnet-api.algonode.cloud",
       explorer: "https://algoexplorer.io"
     }
