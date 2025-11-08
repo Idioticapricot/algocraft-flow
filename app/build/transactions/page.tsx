@@ -30,21 +30,6 @@ export default function TransactionsPage() {
   const [showWallet, setShowWallet] = useState(false)
   const [wallet, setWallet] = useState<Wallet | null>(null)
 
-  useEffect(() => {
-    const savedWallet = localStorage.getItem("algorand-wallet")
-    if (savedWallet) {
-      try {
-        const parsedWallet = JSON.parse(savedWallet)
-        if (parsedWallet && typeof parsedWallet.address === 'string') {
-          setWallet(parsedWallet)
-          setShowWallet(true)
-        }
-      } catch (error) {
-        console.error("Error parsing wallet:", error)
-      }
-    }
-  }, [])
-
   const handleRun = async () => {
     setTerminalOutput("")
     setIsTerminalOpen(true)
