@@ -214,8 +214,10 @@
   },
   {
     "type": "create_application",
-    "message0": "@abimethod() createApplication %1 %2",
+    "message0": "@abimethod() createApplication %1 params: %2 %3 %4",
     "args0": [
+      { "type": "input_dummy" },
+      { "type": "input_value", "name": "PARAMS" },
       { "type": "input_dummy" },
       { "type": "input_statement", "name": "BODY" }
     ],
@@ -223,6 +225,113 @@
     "nextStatement": null,
     "colour": 120,
     "tooltip": "Create application initialization method",
+    "helpUrl": ""
+  },
+  {
+    "type": "itxn_asset_create",
+    "message0": "itxn.assetConfig %1 total: %2 decimals: %3 unitName: %4 assetName: %5 %6 .submit()",
+    "args0": [
+      { "type": "input_dummy" },
+      { "type": "input_value", "name": "TOTAL" },
+      { "type": "input_value", "name": "DECIMALS" },
+      { "type": "input_value", "name": "UNIT_NAME" },
+      { "type": "input_value", "name": "ASSET_NAME" },
+      { "type": "input_dummy" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 160,
+    "tooltip": "Create asset",
+    "helpUrl": ""
+  },
+  {
+    "type": "itxn_asset_optin",
+    "message0": "itxn.assetTransfer (opt-in) %1 asset: %2 %3 .submit()",
+    "args0": [
+      { "type": "input_dummy" },
+      { "type": "input_value", "name": "ASSET" },
+      { "type": "input_dummy" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 160,
+    "tooltip": "Opt into asset",
+    "helpUrl": ""
+  },
+  {
+    "type": "itxn_asset_freeze",
+    "message0": "itxn.assetFreeze %1 freezeAccount: %2 freezeAsset: %3 frozen: %4 %5 .submit()",
+    "args0": [
+      { "type": "input_dummy" },
+      { "type": "input_value", "name": "ACCOUNT" },
+      { "type": "input_value", "name": "ASSET" },
+      { "type": "field_dropdown", "name": "FROZEN", "options": [["true", "true"], ["false", "false"]] },
+      { "type": "input_dummy" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 160,
+    "tooltip": "Freeze asset",
+    "helpUrl": ""
+  },
+  {
+    "type": "itxn_asset_revoke",
+    "message0": "itxn.assetTransfer (revoke) %1 from: %2 asset: %3 amount: %4 %5 .submit()",
+    "args0": [
+      { "type": "input_dummy" },
+      { "type": "input_value", "name": "FROM" },
+      { "type": "input_value", "name": "ASSET" },
+      { "type": "input_value", "name": "AMOUNT" },
+      { "type": "input_dummy" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 160,
+    "tooltip": "Revoke/clawback asset",
+    "helpUrl": ""
+  },
+  {
+    "type": "itxn_asset_config",
+    "message0": "itxn.assetConfig (reconfigure) %1 configAsset: %2 manager: %3 %4 .submit()",
+    "args0": [
+      { "type": "input_dummy" },
+      { "type": "input_value", "name": "ASSET" },
+      { "type": "input_value", "name": "MANAGER" },
+      { "type": "input_dummy" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 160,
+    "tooltip": "Reconfigure asset",
+    "helpUrl": ""
+  },
+  {
+    "type": "itxn_asset_delete",
+    "message0": "itxn.assetConfig (delete) %1 configAsset: %2 %3 .submit()",
+    "args0": [
+      { "type": "input_dummy" },
+      { "type": "input_value", "name": "ASSET" },
+      { "type": "input_dummy" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 160,
+    "tooltip": "Delete asset",
+    "helpUrl": ""
+  },
+  {
+    "type": "itxn_app_call",
+    "message0": "itxn.applicationCall %1 appId: %2 appArgs: %3 %4 .submit()",
+    "args0": [
+      { "type": "input_dummy" },
+      { "type": "input_value", "name": "APP_ID" },
+      { "type": "input_value", "name": "APP_ARGS" },
+      { "type": "input_dummy" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 160,
+    "tooltip": "Call another application",
     "helpUrl": ""
   },
   {
@@ -247,13 +356,119 @@
         ["+", "+"],
         ["-", "-"],
         ["*", "*"],
-        ["/", "/"]
+        ["/", "/"],
+        ["%", "%"]
       ]},
       { "type": "input_value", "name": "B" }
     ],
     "output": "Number",
     "colour": 230,
     "tooltip": "Math operation",
+    "helpUrl": ""
+  },
+  {
+    "type": "if_statement",
+    "message0": "if %1 %2 %3",
+    "args0": [
+      { "type": "input_value", "name": "CONDITION", "check": "Boolean" },
+      { "type": "input_dummy" },
+      { "type": "input_statement", "name": "DO" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "If statement",
+    "helpUrl": ""
+  },
+  {
+    "type": "if_else_statement",
+    "message0": "if %1 %2 %3 else %4 %5",
+    "args0": [
+      { "type": "input_value", "name": "CONDITION", "check": "Boolean" },
+      { "type": "input_dummy" },
+      { "type": "input_statement", "name": "DO" },
+      { "type": "input_dummy" },
+      { "type": "input_statement", "name": "ELSE" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 210,
+    "tooltip": "If-else statement",
+    "helpUrl": ""
+  },
+  {
+    "type": "while_loop",
+    "message0": "while %1 %2 %3",
+    "args0": [
+      { "type": "input_value", "name": "CONDITION", "check": "Boolean" },
+      { "type": "input_dummy" },
+      { "type": "input_statement", "name": "DO" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 120,
+    "tooltip": "While loop",
+    "helpUrl": ""
+  },
+  {
+    "type": "for_loop",
+    "message0": "for %1 of %2 %3 %4",
+    "args0": [
+      { "type": "field_input", "name": "VAR", "text": "item" },
+      { "type": "input_value", "name": "LIST" },
+      { "type": "input_dummy" },
+      { "type": "input_statement", "name": "DO" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 120,
+    "tooltip": "For loop",
+    "helpUrl": ""
+  },
+  {
+    "type": "return_statement",
+    "message0": "return %1",
+    "args0": [
+      { "type": "input_value", "name": "VALUE" }
+    ],
+    "previousStatement": null,
+    "colour": 330,
+    "tooltip": "Return statement",
+    "helpUrl": ""
+  },
+  {
+    "type": "break_statement",
+    "message0": "break",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 330,
+    "tooltip": "Break statement",
+    "helpUrl": ""
+  },
+  {
+    "type": "continue_statement",
+    "message0": "continue",
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 330,
+    "tooltip": "Continue statement",
+    "helpUrl": ""
+  },
+  {
+    "type": "logical_operation",
+    "message0": "%1 %2 %3",
+    "args0": [
+      { "type": "input_value", "name": "A", "check": "Boolean" },
+      { "type": "field_dropdown", "name": "OP", "options": [
+        ["&&", "&&"],
+        ["||", "||"],
+        ["!", "!"]
+      ]},
+      { "type": "input_value", "name": "B", "check": "Boolean" }
+    ],
+    "output": "Boolean",
+    "colour": 210,
+    "tooltip": "Logical operation",
     "helpUrl": ""
   }
 ]

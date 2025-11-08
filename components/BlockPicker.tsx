@@ -110,8 +110,53 @@ export default function BlockPicker({
         }
         
         javascriptGenerator.forBlock["create_application"] = function(block: any) {
+          const params = javascriptGenerator.valueToCode(block, "PARAMS", Order.ATOMIC) || ""
           const body = javascriptGenerator.statementToCode(block, "BODY")
-          return `  @abimethod()\n  createApplication(): void {\n${body}  }\n\n`
+          return `  @abimethod()\n  createApplication(${params}): void {\n${body}  }\n\n`
+        }
+        
+        javascriptGenerator.forBlock["itxn_asset_create"] = function(block: any) {
+          const total = javascriptGenerator.valueToCode(block, "TOTAL", Order.ATOMIC) || "0"
+          const decimals = javascriptGenerator.valueToCode(block, "DECIMALS", Order.ATOMIC) || "0"
+          const unitName = javascriptGenerator.valueToCode(block, "UNIT_NAME", Order.ATOMIC) || '""'
+          const assetName = javascriptGenerator.valueToCode(block, "ASSET_NAME", Order.ATOMIC) || '""'
+          return `    itxn.assetConfig({\n      total: ${total},\n      decimals: ${decimals},\n      unitName: ${unitName},\n      assetName: ${assetName},\n      fee: 0\n    }).submit()\n`
+        }
+        
+        javascriptGenerator.forBlock["itxn_asset_optin"] = function(block: any) {
+          const asset = javascriptGenerator.valueToCode(block, "ASSET", Order.ATOMIC) || "Asset()"
+          return `    itxn.assetTransfer({\n      assetReceiver: Global.currentApplicationAddress,\n      xferAsset: ${asset},\n      assetAmount: 0,\n      fee: 0\n    }).submit()\n`
+        }
+        
+        javascriptGenerator.forBlock["itxn_asset_freeze"] = function(block: any) {
+          const account = javascriptGenerator.valueToCode(block, "ACCOUNT", Order.ATOMIC) || "Txn.sender"
+          const asset = javascriptGenerator.valueToCode(block, "ASSET", Order.ATOMIC) || "Asset()"
+          const frozen = block.getFieldValue("FROZEN")
+          return `    itxn.assetFreeze({\n      freezeAccount: ${account},\n      freezeAsset: ${asset},\n      frozen: ${frozen},\n      fee: 0\n    }).submit()\n`
+        }
+        
+        javascriptGenerator.forBlock["itxn_asset_revoke"] = function(block: any) {
+          const from = javascriptGenerator.valueToCode(block, "FROM", Order.ATOMIC) || "Txn.sender"
+          const asset = javascriptGenerator.valueToCode(block, "ASSET", Order.ATOMIC) || "Asset()"
+          const amount = javascriptGenerator.valueToCode(block, "AMOUNT", Order.ATOMIC) || "0"
+          return `    itxn.assetTransfer({\n      assetReceiver: Global.currentApplicationAddress,\n      xferAsset: ${asset},\n      assetSender: ${from},\n      assetAmount: ${amount},\n      fee: 0\n    }).submit()\n`
+        }
+        
+        javascriptGenerator.forBlock["itxn_asset_config"] = function(block: any) {
+          const asset = javascriptGenerator.valueToCode(block, "ASSET", Order.ATOMIC) || "Asset()"
+          const manager = javascriptGenerator.valueToCode(block, "MANAGER", Order.ATOMIC) || "Global.currentApplicationAddress"
+          return `    itxn.assetConfig({\n      configAsset: ${asset},\n      manager: ${manager},\n      fee: 0\n    }).submit()\n`
+        }
+        
+        javascriptGenerator.forBlock["itxn_asset_delete"] = function(block: any) {
+          const asset = javascriptGenerator.valueToCode(block, "ASSET", Order.ATOMIC) || "Asset()"
+          return `    itxn.assetConfig({\n      configAsset: ${asset},\n      fee: 0\n    }).submit()\n`
+        }
+        
+        javascriptGenerator.forBlock["itxn_app_call"] = function(block: any) {
+          const appId = javascriptGenerator.valueToCode(block, "APP_ID", Order.ATOMIC) || "Application(0)"
+          const appArgs = javascriptGenerator.valueToCode(block, "APP_ARGS", Order.ATOMIC) || "[]"
+          return `    itxn.applicationCall({\n      appId: ${appId},\n      appArgs: ${appArgs},\n      fee: 0\n    }).submit()\n`
         }
         
         javascriptGenerator.forBlock["const_declaration"] = function(block: any) {
@@ -125,6 +170,52 @@ export default function BlockPicker({
           const op = block.getFieldValue("OP")
           const b = javascriptGenerator.valueToCode(block, "B", Order.ATOMIC) || "0"
           return [`${a} ${op} ${b}`, Order.ATOMIC]
+        }
+        
+        javascriptGenerator.forBlock["if_statement"] = function(block: any) {
+          const condition = javascriptGenerator.valueToCode(block, "CONDITION", Order.ATOMIC) || "true"
+          const doCode = javascriptGenerator.statementToCode(block, "DO")
+          return `    if (${condition}) {\n${doCode}    }\n`
+        }
+        
+        javascriptGenerator.forBlock["if_else_statement"] = function(block: any) {
+          const condition = javascriptGenerator.valueToCode(block, "CONDITION", Order.ATOMIC) || "true"
+          const doCode = javascriptGenerator.statementToCode(block, "DO")
+          const elseCode = javascriptGenerator.statementToCode(block, "ELSE")
+          return `    if (${condition}) {\n${doCode}    } else {\n${elseCode}    }\n`
+        }
+        
+        javascriptGenerator.forBlock["while_loop"] = function(block: any) {
+          const condition = javascriptGenerator.valueToCode(block, "CONDITION", Order.ATOMIC) || "true"
+          const doCode = javascriptGenerator.statementToCode(block, "DO")
+          return `    while (${condition}) {\n${doCode}    }\n`
+        }
+        
+        javascriptGenerator.forBlock["for_loop"] = function(block: any) {
+          const varName = block.getFieldValue("VAR")
+          const list = javascriptGenerator.valueToCode(block, "LIST", Order.ATOMIC) || "[]"
+          const doCode = javascriptGenerator.statementToCode(block, "DO")
+          return `    for (const ${varName} of ${list}) {\n${doCode}    }\n`
+        }
+        
+        javascriptGenerator.forBlock["return_statement"] = function(block: any) {
+          const value = javascriptGenerator.valueToCode(block, "VALUE", Order.ATOMIC) || ""
+          return `    return ${value}\n`
+        }
+        
+        javascriptGenerator.forBlock["break_statement"] = function() {
+          return `    break\n`
+        }
+        
+        javascriptGenerator.forBlock["continue_statement"] = function() {
+          return `    continue\n`
+        }
+        
+        javascriptGenerator.forBlock["logical_operation"] = function(block: any) {
+          const a = javascriptGenerator.valueToCode(block, "A", Order.LOGICAL_AND) || "true"
+          const op = block.getFieldValue("OP")
+          const b = javascriptGenerator.valueToCode(block, "B", Order.LOGICAL_AND) || "true"
+          return [`${a} ${op} ${b}`, Order.LOGICAL_AND]
         }
         
         const categories = [
@@ -141,12 +232,12 @@ export default function BlockPicker({
           {
             name: "Transactions",
             colour: "160",
-            blocks: ["itxn_payment", "itxn_asset_transfer"]
+            blocks: ["itxn_payment", "itxn_asset_transfer", "itxn_asset_create", "itxn_asset_optin", "itxn_asset_freeze", "itxn_asset_revoke", "itxn_asset_config", "itxn_asset_delete", "itxn_app_call"]
           },
           {
             name: "Logic",
-            colour: "0",
-            blocks: ["assert", "comparison"]
+            colour: "210",
+            blocks: ["assert", "comparison", "logical_operation", "if_statement", "if_else_statement", "while_loop", "for_loop", "return_statement", "break_statement", "continue_statement"]
           },
           {
             name: "Globals",
