@@ -1,16 +1,16 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
-import { FlowBuilder } from "@/components/flow-builder"
 import { TerminalBuild } from "@/components/terminalbuild"
 import { toast } from "@/hooks/use-toast"
-import { Play, Download, Trash2, TerminalIcon } from "lucide-react"
+import { Play, Download, Trash2 } from "lucide-react"
 import { WalletPanel } from "@/components/wallet-panel"
 import { WalletButton } from "@/components/wallet-button"
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels"
 import algosdk from "algosdk"
-import { generateCode } from "@/lib/code-generator"
+import * as Blockly from 'blockly/core'
+import { javascriptGenerator, Order } from 'blockly/javascript'
 
 interface Wallet {
   address: string
@@ -21,14 +21,70 @@ interface Wallet {
   algoPrice: number
 }
 
+// Block Definition
+const my_block1 = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Demo Block")
+    this.setOutput(true, null)
+    this.setColour(225)
+    this.setTooltip('')
+    this.setHelpUrl('')
+  }
+}
+
+Blockly.common.defineBlocks({my_block1: my_block1})
+
+// Generator Stub
+javascriptGenerator.forBlock['my_block1'] = function() {
+  const code = 'console.log("Hello from Blockly!")'
+  return [code, Order.NONE]
+}
+
 export default function ContractsPage() {
   const [isTerminalOpen, setIsTerminalOpen] = useState(false)
   const [terminalOutput, setTerminalOutput] = useState("")
-  const [nodes, setNodes] = useState([])
-  const [edges, setEdges] = useState([])
-  const [selectedNode, setSelectedNode] = useState(null)
   const [showWallet, setShowWallet] = useState(false)
   const [wallet, setWallet] = useState<Wallet | null>(null)
+  const blocklyDiv = useRef<HTMLDivElement>(null)
+  const workspace = useRef<Blockly.WorkspaceSvg | null>(null)
+
+  useEffect(() => {
+    if (blocklyDiv.current && !workspace.current) {
+      workspace.current = Blockly.inject(blocklyDiv.current, {
+        toolbox: {
+          kind: 'flyoutToolbox',
+          contents: [
+            {
+              kind: 'block',
+              type: 'my_block1'
+            }
+          ]
+        },
+        grid: {
+          spacing: 20,
+          length: 3,
+          colour: '#ccc',
+          snap: true
+        },
+        zoom: {
+          controls: true,
+          wheel: true,
+          startScale: 1.0,
+          maxScale: 3,
+          minScale: 0.3,
+          scaleSpeed: 1.2
+        }
+      })
+    }
+
+    return () => {
+      if (workspace.current) {
+        workspace.current.dispose()
+        workspace.current = null
+      }
+    }
+  }, [])
 
   const handleRun = async () => {
     setTerminalOutput("")
@@ -43,11 +99,9 @@ export default function ContractsPage() {
       duration: 3000,
     })
 
-    const generatedCode = generateCode(nodes, edges)
+    // Generate code from Blockly workspace
+    const generatedCode = workspace.current ? javascriptGenerator.workspaceToCode(workspace.current) : ''
     let modifiedGeneratedCode = generatedCode
-      .replace("import algosdk from 'algosdk';", "")
-      .replace("const algodClient = new algosdk.Algodv2(algodToken, algodServer, algodPort);", "")
-      .replace("const params = await algodClient.getTransactionParams().do();", "")
 
     const originalConsoleLog = console.log
     const originalConsoleError = console.error
@@ -167,7 +221,7 @@ export default function ContractsPage() {
             </Button>
             <Button
               onClick={() => {
-                const generatedCode = generateCode(nodes, edges)
+                const generatedCode = workspace.current ? javascriptGenerator.workspaceToCode(workspace.current) : ''
                 const dataBlob = new Blob([generatedCode], { type: "text/javascript" })
                 const url = URL.createObjectURL(dataBlob)
                 const link = document.createElement("a")
@@ -188,21 +242,11 @@ export default function ContractsPage() {
             </Button>
             <Button
               onClick={() => {
-                if (selectedNode) {
-                  setNodes((nds) => nds.filter((node) => node.id !== selectedNode.id))
-                  setEdges((eds) =>
-                    eds.filter((edge) => edge.source !== selectedNode.id && edge.target !== selectedNode.id),
-                  )
-                  setSelectedNode(null)
+                if (workspace.current) {
+                  workspace.current.clear()
                   toast({
-                    title: "Node Deleted",
-                    description: "Selected node has been removed",
-                    duration: 2000,
-                  })
-                } else {
-                  toast({
-                    title: "No Node Selected",
-                    description: "Please select a node to delete",
+                    title: "Workspace Cleared",
+                    description: "All blocks have been removed",
                     duration: 2000,
                   })
                 }
@@ -217,14 +261,10 @@ export default function ContractsPage() {
 
         <PanelGroup direction="horizontal" className="flex-1">
           <Panel defaultSize={showWallet && wallet ? 75 : 100} minSize={30}>
-            <FlowBuilder
-              type="contract"
-              key="contract"
-              onFlowChange={(newNodes, newEdges) => {
-                setNodes(newNodes)
-                setEdges(newEdges)
-              }}
-              onNodeSelect={setSelectedNode}
+            <div 
+              ref={blocklyDiv} 
+              className="w-full h-full"
+              style={{ minHeight: '400px' }}
             />
           </Panel>
           {showWallet && wallet && (
