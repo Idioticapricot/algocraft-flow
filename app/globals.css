@@ -3,8 +3,6 @@
 @tailwind utilities;
 
 /* Blockly CSS imports */
-/* @import 'blockly/css/blockly.css';
-@import 'blockly/css/blocks.css'; */
 
 html,
 body {

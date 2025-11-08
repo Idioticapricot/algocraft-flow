@@ -1,0 +1,107 @@
+[
+  {
+    "type": "app_create",
+    "message0": "Create Application %1 name %2 details %3 pricing %4",
+    "args0": [
+      { "type": "input_dummy" },
+      { "type": "input_value", "name": "NAME", "check": "String" },
+      { "type": "input_value", "name": "DETAILS", "check": "String" },
+      { "type": "input_value", "name": "PRICING", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 230,
+    "tooltip": "Create a new Algorand application",
+    "helpUrl": ""
+  },
+  {
+    "type": "app_call",
+    "message0": "Call Application %1 app ID %2 method %3",
+    "args0": [
+      { "type": "input_dummy" },
+      { "type": "input_value", "name": "APP_ID", "check": "Number" },
+      { "type": "input_value", "name": "METHOD", "check": "String" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 230,
+    "tooltip": "Call an Algorand application",
+    "helpUrl": ""
+  },
+  {
+    "type": "inner_payment",
+    "message0": "Payment Transaction %1 receiver %2 amount %3",
+    "args0": [
+      { "type": "input_dummy" },
+      { "type": "input_value", "name": "RECEIVER", "check": "String" },
+      { "type": "input_value", "name": "AMOUNT", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 160,
+    "tooltip": "Create a payment transaction",
+    "helpUrl": ""
+  },
+  {
+    "type": "asset_config",
+    "message0": "Configure Asset %1 asset name %2 total %3 decimals %4",
+    "args0": [
+      { "type": "input_dummy" },
+      { "type": "input_value", "name": "ASSET_NAME", "check": "String" },
+      { "type": "input_value", "name": "TOTAL", "check": "Number" },
+      { "type": "input_value", "name": "DECIMALS", "check": "Number" }
+    ],
+    "previousStatement": null,
+    "nextStatement": null,
+    "colour": 160,
+    "tooltip": "Configure an Algorand asset",
+    "helpUrl": ""
+  },
+  {
+    "type": "global_state",
+    "message0": "Global State %1 key %2",
+    "args0": [
+      { "type": "input_dummy" },
+      { "type": "input_value", "name": "KEY", "check": "String" }
+    ],
+    "output": null,
+    "colour": 290,
+    "tooltip": "Access global state",
+    "helpUrl": ""
+  },
+  {
+    "type": "local_state",
+    "message0": "Local State %1 account %2 key %3",
+    "args0": [
+      { "type": "input_dummy" },
+      { "type": "input_value", "name": "ACCOUNT", "check": "String" },
+      { "type": "input_value", "name": "KEY", "check": "String" }
+    ],
+    "output": null,
+    "colour": 290,
+    "tooltip": "Access local state",
+    "helpUrl": ""
+  },
+  {
+    "type": "text_value",
+    "message0": "\"%1\"",
+    "args0": [
+      { "type": "field_input", "name": "TEXT", "text": "" }
+    ],
+    "output": "String",
+    "colour": 160,
+    "tooltip": "Text value",
+    "helpUrl": ""
+  },
+  {
+    "type": "number_value",
+    "message0": "%1",
+    "args0": [
+      { "type": "field_number", "name": "NUM", "value": 0 }
+    ],
+    "output": "Number",
+    "colour": 230,
+    "tooltip": "Number value",
+    "helpUrl": ""
+  }
+]

@@ -1,0 +1,78 @@
+/* Custom Blockly Dark Theme Styles */
+
+/* Blockly workspace background */
+.blocklyMainBackground {
+  fill: #0b0b0b !important;
+}
+
+/* Blockly toolbox */
+.blocklyToolboxDiv {
+  background-color: #1a1a1a !important;
+  color: #fff !important;
+}
+
+/* Blockly flyout */
+.blocklyFlyoutBackground {
+  fill: #1a1a1a !important;
+  fill-opacity: 0.9 !important;
+}
+
+/* Blockly scrollbars */
+.blocklyScrollbarHandle {
+  fill: #444 !important;
+}
+
+.blocklyScrollbarBackground {
+  fill: #222 !important;
+}
+
+/* Blockly text */
+.blocklyText {
+  fill: #fff !important;
+}
+
+/* Blockly dropdown */
+.blocklyDropDownDiv {
+  background-color: #1a1a1a !important;
+  border: 1px solid #333 !important;
+}
+
+.blocklyMenuItem {
+  color: #fff !important;
+}
+
+.blocklyMenuItem:hover {
+  background-color: #333 !important;
+}
+
+/* Blockly context menu */
+.blocklyContextMenu {
+  background-color: #1a1a1a !important;
+  border: 1px solid #333 !important;
+}
+
+/* Blockly widget div */
+.blocklyWidgetDiv {
+  color: #fff !important;
+}
+
+/* Blockly field input */
+.blocklyHtmlInput {
+  background-color: #222 !important;
+  color: #fff !important;
+  border: 1px solid #444 !important;
+}
+
+/* Blockly trash can */
+.blocklyTrash {
+  opacity: 0.8;
+}
+
+/* Blockly zoom controls */
+.blocklyZoom {
+  opacity: 0.8;
+}
+
+.blocklyZoom > image {
+  opacity: 0.8;
+}
