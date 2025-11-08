@@ -1,7 +1,6 @@
 "use client"
 
 import Link from "next/link"
-import { ConnectWalletButton } from "./connect-wallet-button"
 import { motion } from "framer-motion"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
@@ -54,11 +53,9 @@ export default function Nav() {
         ))}
       </div>
 
-      {/* Right Section - Wallet Button and Mobile Menu */}
+      {/* Right Section - Mobile Menu */}
       <div className="flex items-center gap-4">
-        <ConnectWalletButton />
-
-        {/* Mobile Menu */}
+        {/* Mobile Menu */
         <div className="md:hidden">
           <DropdownMenu open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <DropdownMenuTrigger asChild>

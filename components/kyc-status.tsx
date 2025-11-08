@@ -2,16 +2,13 @@
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { useWallet } from "@txnlab/use-wallet-react"
 import Link from "next/link"
 import { CheckCircle2, Clock, AlertCircle } from "lucide-react"
 
 export default function KYCStatus() {
-  const { activeAccount } = useWallet()
-
   // Mock data - in a real app, this would come from your API
   const kycData = {
-    walletAddress: activeAccount?.address || "",
+    walletAddress: "ABCD1234EFGH5678IJKL9012MNOP3456QRST7890UVWX1234YZAB5678",
     submission: "Submitted",
     level: "Level 2",
     status: "Pending",

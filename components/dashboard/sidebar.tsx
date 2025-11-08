@@ -3,29 +3,15 @@
 import { usePathname } from "next/navigation"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { Clock, FileText, CheckCircle, Plus, Home, User, Settings, LogOut } from "lucide-react"
+import { Clock, FileText, CheckCircle, Plus, Home, User, Settings } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { useWallet } from "@txnlab/use-wallet-react"
-import { toast } from "react-toastify"
 
 export function DashboardSidebar() {
   const pathname = usePathname()
-  const { activeAccount, wallets } = useWallet()
-
-  const disconnectWallets = async () => {
-    try {
-      for (const wallet of wallets) {
-        if (wallet.isConnected) {
-          await wallet.disconnect()
-        }
-      }
-      toast.success("Disconnected from all wallets")
-    } catch (error) {
-      console.error(error)
-      toast.error("Failed to disconnect wallets")
-    }
-  }
+  
+  // Mock wallet data - replace with your wallet panel integration
+  const mockWalletAddress = "ABCD1234EFGH5678IJKL9012MNOP3456QRST7890UVWX1234YZAB5678"
 
   const sidebarItems = [
     {
@@ -74,14 +60,12 @@ export function DashboardSidebar() {
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
       <div className="p-4">
-        {activeAccount && (
-          <div className="mb-6 p-3 rounded-lg bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700">
-            <p className="text-xs text-muted-foreground mb-1">Connected Wallet</p>
-            <p className="text-sm font-mono truncate">
-              {activeAccount.address.slice(0, 10)}...{activeAccount.address.slice(-4)}
-            </p>
-          </div>
-        )}
+        <div className="mb-6 p-3 rounded-lg bg-white/50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700">
+          <p className="text-xs text-muted-foreground mb-1">Connected Wallet</p>
+          <p className="text-sm font-mono truncate">
+            {mockWalletAddress.slice(0, 10)}...{mockWalletAddress.slice(-4)}
+          </p>
+        </div>
 
         <div className="space-y-1">
           {sidebarItems.map((item) => {
@@ -103,14 +87,7 @@ export function DashboardSidebar() {
             )
           })}
 
-          <Button
-            variant="ghost"
-            className="w-full justify-start gap-2 font-normal text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 mt-6"
-            onClick={disconnectWallets}
-          >
-            <LogOut className="h-4 w-4" />
-            Disconnect
-          </Button>
+
         </div>
       </div>
     </motion.div>
